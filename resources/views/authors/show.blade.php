@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2> Show Product</h2>
+                <h2> Show Author</h2>
             </div>
             <div class="pull-right">
                 <a class="btn btn-primary" href="{{ route('authors.index') }}"> Back</a>
@@ -25,7 +25,7 @@
                 <td>{{$author->first_name}} {{$author->last_name}}</td>
                 <td>
                     <ul>
-                        @foreach($authorsData as $book)
+                        @foreach($authors->books as $book)
                             <li>{{$book->name}}</li>
                         @endforeach
                     </ul>

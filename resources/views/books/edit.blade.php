@@ -33,13 +33,36 @@
                     <strong>Name:</strong>
                     <input type="text" name="name" value="{{ $book->name }}" class="form-control" placeholder="Name">
                     <strong>Authors :</strong>
-                    <input type="text" name="authors" value="{{ $book->authors}} " class="form-control" placeholder="Author">
-                    <select class="form-control" id="select2-dropdown" name="authors">
-                        <option value="">Select Option</option>
-                        @foreach($authors as $author)
-                            <option value="{{ $author->id}}">{{ $author->first_name }} {{ $author->last_name }}</option>
-                        @endforeach
-                    </select>
+                    <input type="text" name="authors_input" value="
+@foreach($authors as $author){{ $author->first_name}} {{$author->last_name}}@endforeach" class="form-control"
+                           placeholder="Author">
+                    <select class="form-control" id="search" style="width:500px;" name="authors"></select>
+
+                    <script type="text/javascript">
+                        var path = "{{ route('autocomplete') }}";
+
+                        $('#search').select2({
+                            placeholder: 'Select an author',
+                            ajax: {
+                                url: path,
+                                dataType: 'json',
+                                delay: 250,
+                                processResults: function (data) {
+                                    return {
+                                        results: $.map(data, function (item) {
+                                            return {
+                                                text: item.first_name + ' ' + item.last_name,
+                                                id: item.id
+                                            }
+                                        })
+                                    };
+                                },
+                                cache: true
+                            }
+                        });
+
+                    </script>
+
                 </div>
 
             </div>

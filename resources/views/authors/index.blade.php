@@ -44,8 +44,11 @@
             @endforeach
 
             </tbody>
-
         </table>
+        <div class="pagination pagination-sm">
+            {!! $authors->links() !!}
+        </div>
+
     </div>
 
 @endsection

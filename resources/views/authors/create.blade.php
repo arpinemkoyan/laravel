@@ -22,8 +22,6 @@
                     <input type="text" name="first_name" class="form-control" placeholder="First name">
                     <strong>Last Name:</strong>
                     <input type="text" name="last_name" class="form-control" placeholder="Last name">
-                    <strong>Birthday:</strong>
-                    <input type="date" name="birthday" class="form-control" placeholder="birthday">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">

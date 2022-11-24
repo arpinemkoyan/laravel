@@ -1,16 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\HomeController;
 
-use App\Http\Livewire\Select2Dropdown;
-
-
-Route::get('/', Select2Dropdown::class);
-
-//Route::get('/','App\Http\Controllers\HomeController@index');
+Route::get('/', [HomeController::class, 'index']);
 
 Route::resources([
-    'books' => 'App\Http\Controllers\BooksController',
-    'authors' => 'App\Http\Controllers\AuthorsController',
+    'books' => BookController::class,
+    'authors' => AuthorController::class,
 ]);
-
+Route::controller(BookController::class)->group(function () {
+    Route::get('autocomplete', 'autocomplete')->name('autocomplete');
+});

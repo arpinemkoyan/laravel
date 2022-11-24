@@ -20,13 +20,15 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>First_Name:</strong>
-                    <input type="text" name="first_name" value="{{ $author->first_name }}" class="form-control" placeholder="First name">
+                    <input type="text" name="first_name" value="{{ $author->first_name }}" class="form-control"
+                           placeholder="First name">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Last Name:</strong>
-                    <input type="text" name="last_name" value="{{ $author->last_name }}" class="form-control" placeholder="LAst name">
+                    <input type="text" name="last_name" value="{{ $author->last_name }}" class="form-control"
+                           placeholder="LAst name">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">

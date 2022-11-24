@@ -19,14 +19,14 @@
         <table>
             <thead>
             <tr>
-                <th>@sortablelink('id', 'ID')</th>
+                <th>ID</th>
                 <th>@sortablelink('name','NAME')</th>
             </tr>
             </thead>
             <tbody>
             @foreach($books as $book)
                 <tr>
-                    <td>{{$book->id}}</td>
+                    <td>{{$i++}}</td>
                     <td>{{$book->name}}</td>
                     <td>
                         <form action="{{ route('books.destroy',$book->id) }}" method="POST">

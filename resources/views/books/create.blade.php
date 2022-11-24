@@ -21,8 +21,9 @@
                     <strong>Name:</strong>
                     <input type="text" name="name" class="form-control" placeholder="Name">
                     <strong>Author\s:</strong>
-                    <input type="text" name="authors" class="form-control" placeholder="Name">
-                    <select class="form-control" id="select2-dropdown" name="authors">
+                    <input type="text" name="first_name" class="form-control" placeholder="Author first name">
+                    <input type="text" name="last_name" class="form-control" placeholder="Author last name">
+                    <select class="form-control" id="select2-dropdown" name="author">
                         <option value="">Select Option</option>
                         @foreach($authors as $author)
                             <option value="{{ $author->id}}">{{ $author->first_name }} {{ $author->last_name }}</option>
