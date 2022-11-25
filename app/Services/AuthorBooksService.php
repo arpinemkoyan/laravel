@@ -18,10 +18,18 @@ class AuthorBooksService
 
     public function updateAuthorBook($bookId, $authorId)
     {
-        return AuthorBook::where('book_id', '=', $bookId)
-            ->update([
+        $data = AuthorBook::where('book_id', '=', $bookId);
+        if ($data->count() > 1) {
+            $dataAB=$data->get();
+            for($i=1; $i<$data->count(); $i++ ){
+                $dataAB[$i]->delete();
+            }
+
+        }
+        $data->update([
                 'book_id' => $bookId,
                 'author_id' => $authorId
             ]);
+        return;
     }
 }

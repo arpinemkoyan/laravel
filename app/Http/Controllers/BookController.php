@@ -16,11 +16,11 @@ class BookController extends Controller
 
     public function index(Request $request)
     {
-        $query = Books::sortable();
+        $query = Book::sortable();
         if (!empty($request->filter)) {
-            $query->where('books.name', 'like', '%' . $request->filter . '%');
+            $query = $query->where('books.name', 'like', '%' . $request->filter . '%');
         }
-        $query->paginate(5);
+        $books = $query->paginate(5);
 
         return view('books.index', compact('books'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
@@ -32,27 +32,14 @@ class BookController extends Controller
         return view('books.create', compact('authors'));
     }
 
-    public function store(Request $request, AuthorService $authorService, BookService $bookService, AuthorBooksService $authorBookService)
+    public function store(Request $request, BookService $bookService, AuthorBooksService $authorBookService)
     {
         $request->validate([
-            'name' => 'required|'
+            'name' => 'required',
+            'author' => 'required'
         ]);
 
-        if (empty($request->first_name) || empty($request->last_name)) {
-//                $author=$authorService->getAuthorData($request->authors);
-            $newBook = $bookService->createBook($request->name);
-
-            $idA = $request->authors;
-        } else {
-            $newAuthor = $authorService->createAuthor($request->first_name, $request->last_name);
-
-            $newBook = $bookService->createBook($request->name);
-
-            $idA = $newAuthor->id;
-        }
-        $idB = $newBook->id;
-
-        $authorBookService->createAuthorBook($idB, $idA);
+        $bookService->createBook($request->name, $request->author);
 
         return redirect()->route('books.index')
             ->with('success', 'Book created successfully.');
@@ -73,29 +60,23 @@ class BookController extends Controller
         return view('books.edit', compact('book', 'authors'));
     }
 
-    public function update(Request $request, Book $book, AuthorService $authorService, BookService $bookService, AuthorBooksService $authorBookService)
+    public function update(Request $request, Book $book, BookService $bookService, AuthorBooksService $authorBookService)
     {
         $request->validate([
             'name' => 'required',
         ]);
 
-        if (!empty($request->authors)) {
-            $author = $authorService->getAuthorData($request->authors);
-            $idA = $request->authors;
-
-        } else {
-            $author = $request->authors_input;
-            $authorFullNameArr = explode(" ", $author);
-            $authorDb = $authorService->selectAuthor($authorFullNameArr[0], $authorFullNameArr[1]);
-            if (!$authorDb->exists()) {
-                $newAuthor = $authorService->createAuthor($authorFullNameArr[0], $authorFullNameArr[1]);
-                $idA = $newAuthor->id;
-            } else {
-                $idA = $authorDb->get()[0]->id;
+        if(!empty($request->authors)){
+            echo 'sd';
+            die;
+            $author = Author::find($request->authors);
+            $SelAuthorName = $author->first_name . ' ' . $author->last_name;
+            if ($request->authors_input != $SelAuthorName) {
+                $idA = $request->authors;
+                $authorBookService->updateAuthorBook($book->id, $idA);
             }
         }
 
-        $authorBookService->updateAuthorBook($book->id, $idA);
         $bookService->updateBook($book->id, $request->name);
 
         return redirect()->route('books.index')

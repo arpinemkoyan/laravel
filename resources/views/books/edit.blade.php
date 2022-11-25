@@ -32,10 +32,9 @@
                 <div class="form-group">
                     <strong>Name:</strong>
                     <input type="text" name="name" value="{{ $book->name }}" class="form-control" placeholder="Name">
-                    <strong>Authors :</strong>
                     <input type="text" name="authors_input" value="
-@foreach($authors as $author){{ $author->first_name}} {{$author->last_name}}@endforeach" class="form-control"
-                           placeholder="Author">
+@foreach($authors as $author){{ $author->first_name}} {{$author->last_name}} @endforeach" class="form-control"
+                           placeholder="Author" disabled>
                     <select class="form-control" id="search" style="width:500px;" name="authors"></select>
 
                     <script type="text/javascript">
