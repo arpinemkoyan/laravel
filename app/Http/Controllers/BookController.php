@@ -4,9 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\AuthorBooksService;
-use App\Services\AuthorService;
 use App\Services\BookService;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\Author;
@@ -32,13 +30,18 @@ class BookController extends Controller
         return view('books.create', compact('authors'));
     }
 
-    public function store(Request $request, BookService $bookService, AuthorBooksService $authorBookService)
+    public function store(Request $request, BookService $bookService)
     {
         $request->validate([
             'name' => 'required',
-            'author' => 'required'
         ]);
 
+        if (auth()->user()->role === \App\Models\User::ROLE_AUTHOR) {
+            $bookService->createBook($request->name, auth()->user()->author_id);
+
+            return redirect()->route('author')
+                ->with('success', 'Book created successfully.');
+        }
         $bookService->createBook($request->name, $request->author);
 
         return redirect()->route('books.index')
@@ -60,20 +63,18 @@ class BookController extends Controller
         return view('books.edit', compact('book', 'authors'));
     }
 
-    public function update(Request $request, Book $book, BookService $bookService, AuthorBooksService $authorBookService)
+    public function update(Request $request, Book $book, BookService $bookService, AuthorBooksService $authorBooksService)
     {
         $request->validate([
             'name' => 'required',
         ]);
 
-        if(!empty($request->authors)){
-            echo 'sd';
-            die;
+        if ($request->authors) {
             $author = Author::find($request->authors);
-            $SelAuthorName = $author->first_name . ' ' . $author->last_name;
-            if ($request->authors_input != $SelAuthorName) {
+            dump(!$request->authors);
+            if ($request->authors_input != $author->name) {
                 $idA = $request->authors;
-                $authorBookService->updateAuthorBook($book->id, $idA);
+                $authorBooksService->updateAuthorBook($book->id, $idA);
             }
         }
 
@@ -81,6 +82,7 @@ class BookController extends Controller
 
         return redirect()->route('books.index')
             ->with('success', 'Book updated successfully');
+
     }
 
     public function destroy(Book $book)

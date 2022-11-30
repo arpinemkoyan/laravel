@@ -33,7 +33,7 @@
                     <strong>Name:</strong>
                     <input type="text" name="name" value="{{ $book->name }}" class="form-control" placeholder="Name">
                     <input type="text" name="authors_input" value="
-@foreach($authors as $author){{ $author->first_name}} {{$author->last_name}} @endforeach" class="form-control"
+@foreach($authors as $author){{ $author->name}}@endforeach" class="form-control"
                            placeholder="Author" disabled>
                     <select class="form-control" id="search" style="width:500px;" name="authors"></select>
 
@@ -50,7 +50,7 @@
                                     return {
                                         results: $.map(data, function (item) {
                                             return {
-                                                text: item.first_name + ' ' + item.last_name,
+                                                text: item.name,
                                                 id: item.id
                                             }
                                         })

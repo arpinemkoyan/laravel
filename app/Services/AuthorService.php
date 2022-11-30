@@ -8,19 +8,14 @@ use App\Models\Author;
 
 class AuthorService
 {
-    public function createAuthor($firstName, $lastName){
+    public function createAuthor($name)
+    {
         $author = new Author;
-        $author= $author->fill([
-            'first_name' => $firstName,
-            'last_name' => $lastName]);
+        $author = $author->fill([
+            'name' => $name]);
         $author->save();
         return $author;
     }
 
-    public  function selectAuthor($firstName, $lastName){
-        return Author::select('id')
-            ->where('first_name', '=', $firstName)
-            ->where('last_name', '=', $lastName);
-    }
 
 }

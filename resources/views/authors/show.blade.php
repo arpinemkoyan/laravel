@@ -22,7 +22,7 @@
             </thead>
             <tbody>
             <tr>
-                <td>{{$author->first_name}} {{$author->last_name}}</td>
+                <td>{{$author->name}}</td>
                 <td>
                     <ul>
                         @foreach($authors->books as $book)

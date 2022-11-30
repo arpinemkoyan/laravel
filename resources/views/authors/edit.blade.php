@@ -19,18 +19,12 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>First_Name:</strong>
-                    <input type="text" name="first_name" value="{{ $author->first_name }}" class="form-control"
-                           placeholder="First name">
+                    <strong>Name:</strong>
+                    <input type="text" name="name" value="{{ $author->name }}" class="form-control"
+                           placeholder="Name">
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Last Name:</strong>
-                    <input type="text" name="last_name" value="{{ $author->last_name }}" class="form-control"
-                           placeholder="LAst name">
-                </div>
-            </div>
+
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
