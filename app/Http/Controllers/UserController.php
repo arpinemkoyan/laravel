@@ -39,16 +39,13 @@ class UserController extends Controller
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            $user = User::where('email', '=', $request->email)->first();
+            $user = Auth::user();
             $userRole = $user->role;
-            if ($userRole == 0) {
+            if ($userRole == \App\Models\User::ROLE_AUTHOR) {
                 /*Author*/
                 return redirect()->route('author');
 
-            } else if ($userRole == 1) {
-                redirect('/');
-                return view('home');
-            } else {
+            } elseif ($userRole == \App\Models\User::ROLE_USER) {
                 redirect('/');
                 return view('home');
             }

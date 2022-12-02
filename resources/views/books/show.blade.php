@@ -26,7 +26,7 @@
                 <td>
                     <ul>
                         @foreach($books->authors as $author)
-                            <li>{{$author->first_name}} {{$author->last_name}}</li>
+                            <li>{{$author->name}} </li>
                         @endforeach
                     </ul>
                 </td>

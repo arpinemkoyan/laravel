@@ -22,15 +22,18 @@
                 <div class="form-group">
                     <strong>Name:</strong>
                     <input type="text" name="name" class="form-control" placeholder="Name">
-                    @if(auth()->user()->role !== \App\Models\User::ROLE_AUTHOR)
-                        <strong>Author\s:</strong>
-                        <select class="form-control" id="select2-dropdown" name="author">
-                            <option value="">Select Option</option>
-                            @foreach($authors as $author)
-                                <option value="{{ $author->id}}">{{ $author->name}}</option>
+                    <strong>Author\s:</strong><br/>
+                    <select class="form-control" name="authors[]" multiple="">
+                        @if(auth()->user()->role === \App\Models\User::ROLE_AUTHOR)
+                            <option value="{{auth()->user()->id}}" selected="selected">{{auth()->user()->name}}</option>
+                        @endif
+                        @if(auth()->user()->role !== \App\Models\User::ROLE_AUTHOR)
+                            @foreach($allAuthors as $authorData)
+                                <option value="{{$authorData->id}}">{{$authorData->name}}</option>
                             @endforeach
-                        </select>
-                    @endif
+                        @endif
+                    </select>
+
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">

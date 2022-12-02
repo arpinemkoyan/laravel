@@ -15,14 +15,26 @@
 
     <div class="row">
         <div class="pull-right">
-            <a class="btn btn-success" href="{{ route('books.create', $author) }}"> Create New Book</a>
+            <a class="btn btn-success" href="{{ route('books.create') }}"> Create New Book</a>
         </div>
-        <ol class="list-group list-group-numbered">
+        <table>
+            <thead>
+            <tr>
+                <th>Books name</th>
+            </tr>
+            </thead>
+            <tbody>
             @foreach($author->books as $book)
-                <li class="list-group-item">{{$book->name}}</li>
-
+                <tr>
+                    <td>{{$book->name}}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{{ route('books.edit',$book->id) }}">Edit</a>
+                    </td>
+                </tr>
             @endforeach
-        </ol>
+            </tbody>
+
+        </table>
 
     </div>
 @endsection

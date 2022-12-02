@@ -32,35 +32,21 @@
                 <div class="form-group">
                     <strong>Name:</strong>
                     <input type="text" name="name" value="{{ $book->name }}" class="form-control" placeholder="Name">
-                    <input type="text" name="authors_input" value="
-@foreach($authors as $author){{ $author->name}}@endforeach" class="form-control"
+                    <input type="text" name="authors_input"
+                           value="@foreach($authors as $author){{ $author->name}}@endforeach" class="form-control"
                            placeholder="Author" disabled>
-                    <select class="form-control" id="search" style="width:500px;" name="authors"></select>
-
-                    <script type="text/javascript">
-                        var path = "{{ route('autocomplete') }}";
-
-                        $('#search').select2({
-                            placeholder: 'Select an author',
-                            ajax: {
-                                url: path,
-                                dataType: 'json',
-                                delay: 250,
-                                processResults: function (data) {
-                                    return {
-                                        results: $.map(data, function (item) {
-                                            return {
-                                                text: item.name,
-                                                id: item.id
-                                            }
-                                        })
-                                    };
-                                },
-                                cache: true
-                            }
-                        });
-
-                    </script>
+                    <select class="form-control" name="authors[]" multiple="">
+                        @if(auth()->user()->role === \App\Models\User::ROLE_AUTHOR)
+                            @foreach($authors as $author)
+                                <option value="{{$author->id}}" selected="selected">{{$author->name}}</option>
+                            @endforeach
+                        @endif
+                        @if(auth()->user()->role !== \App\Models\User::ROLE_AUTHOR)
+                            @foreach($allAuthors as $authorData)
+                                <option value="{{$authorData->id}}">{{$authorData->name}}</option>
+                            @endforeach
+                        @endif
+                    </select>
 
                 </div>
 

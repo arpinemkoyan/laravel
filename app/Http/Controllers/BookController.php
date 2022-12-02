@@ -26,8 +26,8 @@ class BookController extends Controller
 
     public function create()
     {
-        $authors = Author::all();
-        return view('books.create', compact('authors'));
+        $allAuthors = Author::all();
+        return view('books.create', compact('allAuthors'));
     }
 
     public function store(Request $request, BookService $bookService)
@@ -42,7 +42,8 @@ class BookController extends Controller
             return redirect()->route('author')
                 ->with('success', 'Book created successfully.');
         }
-        $bookService->createBook($request->name, $request->author);
+        dump($request->all());
+        $bookService->createBook($request->name, $request->authors);
 
         return redirect()->route('books.index')
             ->with('success', 'Book created successfully.');
@@ -60,50 +61,43 @@ class BookController extends Controller
         $books = Book::all();
         $books = $books->find($book->id);
         $authors = $books->authors;
-        return view('books.edit', compact('book', 'authors'));
+        $allAuthors = Author::all();
+        return view('books.edit', compact('book', 'authors', 'allAuthors'));
     }
 
     public function update(Request $request, Book $book, BookService $bookService, AuthorBooksService $authorBooksService)
     {
         $request->validate([
             'name' => 'required',
+            'authors' => 'required'
         ]);
 
-        if ($request->authors) {
-            $author = Author::find($request->authors);
-            dump(!$request->authors);
-            if ($request->authors_input != $author->name) {
-                $idA = $request->authors;
-                $authorBooksService->updateAuthorBook($book->id, $idA);
-            }
+        dump($request->all());
+
+        foreach ($request->authors as $authorId) {
+            $authors[] = Author::find($authorId);
         }
+        $authorBooksService->updateAuthorBook($book->id, $authors);
 
         $bookService->updateBook($book->id, $request->name);
 
-        return redirect()->route('books.index')
+        if (auth()->user()->role !== \App\Models\User::ROLE_AUTHOR) {
+            return redirect()->route('books.index')
+                ->with('success', 'Book updated successfully');
+        }
+
+        return redirect()->route('author')
             ->with('success', 'Book updated successfully');
 
     }
 
-    public function destroy(Book $book)
+    public
+    function destroy(Book $book)
     {
         $book->delete();
 
         return redirect()->route('books.index')
             ->with('success', 'Book deleted successfully');
-    }
-
-    public function autocomplete(Request $request)
-    {
-        $data = [];
-
-        if ($request->filled('q')) {
-            $data = Author::select("first_name", "last_name", "id")
-                ->where('first_name', 'LIKE', '%' . $request->get('q') . '%')
-                ->get();
-        }
-
-        return response()->json($data);
     }
 
 }
