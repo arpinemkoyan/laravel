@@ -1,4 +1,4 @@
-@extends('books.layout')
+@extends('layout')
 
 @section('content')
     <div class="row">
@@ -23,7 +23,7 @@
                     <strong>Name:</strong>
                     <input type="text" name="name" class="form-control" placeholder="Name">
                     <strong>Author\s:</strong><br/>
-                    <select class="form-control" name="authors[]" multiple="">
+                    <select class="js-example-basic-multiple" name="authors[]" multiple="multiple">
                         @if(auth()->user()->role === \App\Models\User::ROLE_AUTHOR)
                             <option value="{{auth()->user()->id}}" selected="selected">{{auth()->user()->name}}</option>
                         @endif
@@ -33,7 +33,10 @@
                             @endforeach
                         @endif
                     </select>
-
+                    <script>$(document).ready(function () {
+                            $('.js-example-basic-multiple').select2();
+                        });
+                    </script>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">

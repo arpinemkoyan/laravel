@@ -16,13 +16,14 @@ class AuthorBooksService
         ]);
     }
 
-    public function updateAuthorBook($bookId, $authors)
+    public function updateAuthorBook($bookId, $authorsId)
     {
         $data = AuthorBook::where('book_id', '=', $bookId);
-        foreach ($authors as $author) {
-            $data->update([
+        $data->delete();
+        foreach ($authorsId as $author_id) {
+            $data->insert([
                 'book_id' => $bookId,
-                'author_id' => $author->id
+                'author_id' => $author_id
             ]);
         }
         return;

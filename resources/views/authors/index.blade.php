@@ -1,4 +1,4 @@
-@extends('books.layout')
+@extends('layout')
 
 @section('content')
     <div class="row">
@@ -24,8 +24,7 @@
             @foreach($authors as $author)
                 <tr>
                     <td>{{$author->id}}</td>
-                    <td>{{$author->first_name}}</td>
-                    <td>{{$author->last_name}}</td>
+                    <td>{{$author->name}}</td>
                     <td>
                         <form action="{{ route('authors.destroy',$author->id) }}" method="POST">
 

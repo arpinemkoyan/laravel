@@ -1,4 +1,4 @@
-@extends('books.layout')
+@extends('layout')
 
 @section('content')
     <div class="row">
@@ -48,7 +48,7 @@
             </tbody>
 
         </table>
-        <div class="col-md-12">
+        <div class="col-md-12" style="width: 200px">
             {!! $books->appends(\Request::except('page'))->render() !!}
         </div>
     </div>

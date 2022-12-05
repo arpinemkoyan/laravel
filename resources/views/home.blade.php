@@ -1,4 +1,5 @@
-@extends('dashboard')
+@extends('layout')
+
 @section('content')
 
     <div class="pull-right">

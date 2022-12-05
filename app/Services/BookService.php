@@ -10,15 +10,16 @@ class BookService
 {
 
 
-    public function createBook($name, $idA)
+    public function createBook($name, $ids)
     {
         $authorBooksService = new AuthorBooksService;
         $book = new Book;
         $book = $book->fill(['name' => $name]);
         $book->save();
         $idB = $book->id;
-
-        $authorBooksService->createAuthorBook($idB, $idA);
+        foreach ($ids as $idA) {
+            $authorBooksService->createAuthorBook($idB, $idA);
+        }
 
         return $book;
     }

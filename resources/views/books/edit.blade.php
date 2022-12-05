@@ -1,4 +1,4 @@
-@extends('books.layout')
+@extends('layout')
 
 @section('content')
     <div class="row">
@@ -6,9 +6,11 @@
             <div class="pull-left">
                 <h2>Edit Books</h2>
             </div>
-            <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('books.index') }}"> Back</a>
-            </div>
+            @if(auth()->user()->role !== \App\Models\User::ROLE_AUTHOR)
+                <div class="pull-right">
+                    <a class="btn btn-primary" href="{{ route('books.index') }}"> Back</a>
+                </div>
+            @endif
         </div>
     </div>
 
@@ -33,13 +35,11 @@
                     <strong>Name:</strong>
                     <input type="text" name="name" value="{{ $book->name }}" class="form-control" placeholder="Name">
                     <input type="text" name="authors_input"
-                           value="@foreach($authors as $author){{ $author->name}}@endforeach" class="form-control"
+                           value="@foreach($book->authors as $author){{$author->name }}@endforeach " class="form-control"
                            placeholder="Author" disabled>
-                    <select class="form-control" name="authors[]" multiple="">
+                    <select class="js-example-basic-multiple" name="authors[]" multiple="multiple">
                         @if(auth()->user()->role === \App\Models\User::ROLE_AUTHOR)
-                            @foreach($authors as $author)
-                                <option value="{{$author->id}}" selected="selected">{{$author->name}}</option>
-                            @endforeach
+                            <option value="{{auth()->user()->id}}" selected="selected">{{auth()->user()->name}}</option>
                         @endif
                         @if(auth()->user()->role !== \App\Models\User::ROLE_AUTHOR)
                             @foreach($allAuthors as $authorData)
@@ -47,6 +47,10 @@
                             @endforeach
                         @endif
                     </select>
+                    <script>$(document).ready(function () {
+                            $('.js-example-basic-multiple').select2();
+                        });
+                    </script>
 
                 </div>
 

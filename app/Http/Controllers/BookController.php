@@ -34,18 +34,18 @@ class BookController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'authors' => 'required'
         ]);
 
         if (auth()->user()->role === \App\Models\User::ROLE_AUTHOR) {
             $bookService->createBook($request->name, auth()->user()->author_id);
-
-            return redirect()->route('author')
-                ->with('success', 'Book created successfully.');
+            $routeName = 'author';
+        } else {
+            $bookService->createBook($request->name, $request->authors);
+            $routeName = 'books.index';
         }
-        dump($request->all());
-        $bookService->createBook($request->name, $request->authors);
 
-        return redirect()->route('books.index')
+        return redirect()->route($routeName)
             ->with('success', 'Book created successfully.');
     }
 
@@ -58,11 +58,8 @@ class BookController extends Controller
 
     public function edit(Book $book)
     {
-        $books = Book::all();
-        $books = $books->find($book->id);
-        $authors = $books->authors;
         $allAuthors = Author::all();
-        return view('books.edit', compact('book', 'authors', 'allAuthors'));
+        return view('books.edit', compact('book', 'allAuthors'));
     }
 
     public function update(Request $request, Book $book, BookService $bookService, AuthorBooksService $authorBooksService)
@@ -72,27 +69,19 @@ class BookController extends Controller
             'authors' => 'required'
         ]);
 
-        dump($request->all());
-
-        foreach ($request->authors as $authorId) {
-            $authors[] = Author::find($authorId);
-        }
-        $authorBooksService->updateAuthorBook($book->id, $authors);
-
+        $authorBooksService->updateAuthorBook($book->id, $request->authors);
         $bookService->updateBook($book->id, $request->name);
-
         if (auth()->user()->role !== \App\Models\User::ROLE_AUTHOR) {
-            return redirect()->route('books.index')
-                ->with('success', 'Book updated successfully');
+            $routeName = 'books.index';
+        } else {
+            $routeName = 'author';
         }
-
-        return redirect()->route('author')
+        return redirect()->route($routeName)
             ->with('success', 'Book updated successfully');
 
     }
 
-    public
-    function destroy(Book $book)
+    public function destroy(Book $book)
     {
         $book->delete();
 

@@ -1,4 +1,4 @@
-@extends('authors.layout')
+@extends('layout')
 
 @section('content')
     <div class="row">

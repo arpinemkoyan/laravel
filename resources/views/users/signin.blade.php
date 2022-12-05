@@ -1,4 +1,4 @@
-@extends('dashboard')
+@extends('layout')
 @section('content')
     <main class="login-form">
         <div class="cotainer">
