@@ -5,18 +5,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use App\Services\AuthorService;
+use App\Http\Requests\AuthorRequest;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 
 class AuthorController
 {
 
     public function index()
     {
-        $authors = Author::paginate(5);
+        $authors = Author::paginate(Author::PER_PAGE);
 
         return view('authors.index', compact('authors'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+            ->with('i', (request()->input('page', 1) - 1) * Author::PER_PAGE);
     }
 
     public function create()
@@ -24,14 +24,9 @@ class AuthorController
         return view('authors.create');
     }
 
-    public function store(Request $request, AuthorService $authorService)
+    public function store(AuthorRequest $request, AuthorService $authorService)
     {
-        $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-        ]);
-
-        $authorService->createAuthor($request->first_name, $request->last_name);
+        $authorService->createAuthor($request->name, $request->first_name, $request->last_name);
 
         return redirect()->route('authors.index')
             ->with('success', 'Author created successfully.');
@@ -49,13 +44,8 @@ class AuthorController
         return view('authors.edit', compact('author'));
     }
 
-    public function update(Request $request, Author $author)
+    public function update(AuthorRequest $request, Author $author)
     {
-        $request->validate([
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-        ]);
-
         $author->update($request->all());
 
         return redirect()->route('authors.index')

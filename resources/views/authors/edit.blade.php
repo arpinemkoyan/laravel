@@ -21,7 +21,12 @@
                 <div class="form-group">
                     <strong>Name:</strong>
                     <input type="text" name="name" value="{{ $author->name }}" class="form-control"
-                           placeholder="Name">
+                           placeholder="username">
+                    <strong>Name:</strong>
+                    <input type="text" name="first_name" value="{{ $author->first_name }}" class="form-control"
+                           placeholder="First_name">  <strong>Name:</strong>
+                    <input type="text" name="last_name" value="{{ $author->last_name }}" class="form-control"
+                           placeholder="Last_name">
                 </div>
             </div>
 

@@ -26,6 +26,19 @@
 <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left: 0px">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="@if(auth()->check())
+            @if(auth()->user()->role === \App\Models\User::ROLE_AUTHOR)
+                {{route('author')}}
+            @endif
+            @endif
+            {{route('home')}}" class="nav-link">Home</a>
+
+        </li>
+    </ul>
+
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         @guest

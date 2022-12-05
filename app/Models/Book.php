@@ -10,6 +10,9 @@ class Book extends Model
 {
     use HasFactory;
     use Sortable;
+
+    const PER_PAGE = 5;
+
     public $table = "books";
     protected $fillable = [
         'name'

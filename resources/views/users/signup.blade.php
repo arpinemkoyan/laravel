@@ -10,10 +10,26 @@
                             <form action="{{ route('register.user') }}" method="POST">
                                 @csrf
                                 <div class="form-group mb-3">
-                                    <input type="text" placeholder="Name" id="name" class="form-control" name="name"
+                                    <input type="text" placeholder="username" id="name" class="form-control" name="name"
                                            required autofocus>
                                     @if ($errors->has('name'))
                                         <span class="text-danger">{{ $errors->first('name') }}</span>
+                                    @endif
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input type="text" placeholder="First name" id="fist_name" class="form-control"
+                                           name="first_name"
+                                           required autofocus>
+                                    @if ($errors->has('first_name'))
+                                        <span class="text-danger">{{ $errors->first('first_name') }}</span>
+                                    @endif
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input type="text" placeholder="Last name" id="last_name" class="form-control"
+                                           name="last_name"
+                                           required autofocus>
+                                    @if ($errors->has('last_name'))
+                                        <span class="text-danger">{{ $errors->first('last_name') }}</span>
                                     @endif
                                 </div>
                                 <div class="form-group mb-3">

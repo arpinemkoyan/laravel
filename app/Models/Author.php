@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Author extends Model
 {
     use HasFactory;
+
+    const PER_PAGE = 5;
     public $table = "authors";
     protected $fillable = [
         'id', 'first_name', 'last_name', 'name'

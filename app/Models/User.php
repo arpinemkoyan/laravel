@@ -15,7 +15,14 @@ class User extends Model
 
     public $table = "users";
     protected $fillable = [
-        'id', 'name', 'role', 'password', 'email', 'author_id'
+        'id',
+        'name',
+        'role',
+        'password',
+        'email',
+        'author_id',
+        'first_name',
+        'last_name'
     ];
 
 

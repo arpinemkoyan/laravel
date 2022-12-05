@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\Author;
 use App\Services\AuthorService;
 use Illuminate\Http\Request;
@@ -44,7 +45,6 @@ class UserController extends Controller
             if ($userRole == \App\Models\User::ROLE_AUTHOR) {
                 /*Author*/
                 return redirect()->route('author');
-
             } elseif ($userRole == \App\Models\User::ROLE_USER) {
                 redirect('/');
                 return view('home');
@@ -59,31 +59,23 @@ class UserController extends Controller
         return view('users.signup');
     }
 
-    public function userRegistration(Request $request, AuthorService $authorService)
+    public function userRegistration(UserRequest $request, AuthorService $authorService)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-            'role' => 'required'
-        ]);
-
         $data = $request->all();
-
         if ($request->role == 0) {
             /*Author*/
-            $author = $authorService->createAuthor($request->name);
+            $author = $authorService->createAuthor($request->name, $request->first_name, $request->last_name);
             $data['author_id'] = $author->id;
             $this->create($data);
 
-            return view('users.author', compact('author'));
         }
         if ($request->role == 1) {
             /*custom*/
             $data['author_id'] = null;
             $this->create($data);
-            return view('home');
         }
+        return view('users.signin');
+
     }
 
     public function create(array $data)

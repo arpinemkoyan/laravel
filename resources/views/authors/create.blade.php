@@ -18,10 +18,12 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>First Name:</strong>
-                    <input type="text" name="first_name" class="form-control" placeholder="First name">
-                    <strong>Last Name:</strong>
-                    <input type="text" name="last_name" class="form-control" placeholder="Last name">
+                    <strong>Name:</strong>
+                    <input type="text" name="name" class="form-control" placeholder="Full name">
+                    <strong>Fist name:</strong>
+                    <input type="text" name="first_name" class="form-control" placeholder="Full name">
+                    <strong>Last nmae:</strong>
+                    <input type="text" name="last_name" class="form-control" placeholder="Full name">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">

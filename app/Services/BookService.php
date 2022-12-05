@@ -16,9 +16,8 @@ class BookService
         $book = new Book;
         $book = $book->fill(['name' => $name]);
         $book->save();
-        $idB = $book->id;
-        foreach ($ids as $idA) {
-            $authorBooksService->createAuthorBook($idB, $idA);
+        foreach ($ids as $authorId) {
+            $authorBooksService->createAuthorBook($book->id, $authorId);
         }
 
         return $book;
